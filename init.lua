@@ -198,6 +198,9 @@ vim.o.hlsearch = false
 -- Make line numbers default
 vim.wo.number = true
 
+-- Make relative line numbers default
+vim.wo.relativenumber = true
+
 -- Enable mouse mode
 vim.o.mouse = 'a'
 
@@ -230,6 +233,9 @@ vim.o.completeopt = 'menuone,noselect'
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
+vim.o.spell = true
+vim.o.complete = vim.o.complete .. ',k'
+
 -- [[ Basic Keymaps ]]
 
 -- Keymaps for better default experience
@@ -239,6 +245,32 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+-- Save file using Ctrl-s
+vim.keymap.set('n', '<C-s>', "<cmd>w<cr>", { desc = 'save current buffer' })
+
+-- Close current buffer
+vim.keymap.set('n', '<leader>bd', "<cmd>bd<cr>", { desc = 'current [b]uffer [d]elete' })
+
+-- switch to previous buffer 
+vim.keymap.set('n', '<leader>bs', "<cmd>b#<cr>", { desc = '[b]uffer [s]witch to previous' })
+
+-- Escape using 'jk' or 'kj'
+vim.keymap.set('i', 'jk', "<Esc>")
+vim.keymap.set('i', 'kj', "<Esc>")
+
+-- vim.cmd('autocmd FileType markdown setlocal spell')
+-- vim.api.nvim_create_autocmd('FileType', {
+--   pattern = 'markdown',
+--   callback = function()
+--   end,
+-- })
+
+-- Better window navigation
+-- vim.keymap.set('n', '<C-h>', "<C-w>h")
+-- vim.keymap.set('n', '<C-j>', "<C-w>j")
+-- vim.keymap.set('n', '<C-k>', "<C-w>k")
+-- vim.keymap.set('n', '<C-l>', "<C-w>l")
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`

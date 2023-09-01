@@ -66,6 +66,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
 
+  'dstein64/vim-startuptime',
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
@@ -233,8 +234,15 @@ vim.o.completeopt = 'menuone,noselect'
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
-vim.o.spell = true
-vim.o.complete = vim.o.complete .. ',k'
+-- vim.o.spell = true
+-- vim.o.complete = vim.o.complete .. ',k'
+
+-- Tabs
+vim.o.expandtab = true
+vim.o.shiftwidth = 4
+vim.o.softtabstop = 4
+vim.o.tabstop = 4
+
 
 -- [[ Basic Keymaps ]]
 
@@ -253,7 +261,7 @@ vim.keymap.set('n', '<C-s>', "<cmd>w<cr>", { desc = 'save current buffer' })
 vim.keymap.set('n', '<leader>bd', "<cmd>bd<cr>", { desc = 'current [b]uffer [d]elete' })
 
 -- switch to previous buffer 
-vim.keymap.set('n', '<leader>bs', "<cmd>b#<cr>", { desc = '[b]uffer [s]witch to previous' })
+vim.keymap.set('n', '<leader>bb', "<cmd>b#<cr>", { desc = 'change to previous [b]uffer' })
 
 -- Escape using 'jk' or 'kj'
 vim.keymap.set('i', 'jk', "<Esc>")
@@ -449,6 +457,13 @@ local servers = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
+      format = {
+        enable = true,
+        defaultConfig = {
+          indent_style = "space",
+          indent_size = "2",
+        }
+      },
     },
   },
 }
@@ -527,3 +542,18 @@ cmp.setup {
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+-- specific setup for different file types
+local function set_tab_2_spaces()
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
+    vim.opt_local.tabstop = 2
+end
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "lua",
+  callback = set_tab_2_spaces,
+})
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "html",
+  callback = set_tab_2_spaces,
+})
